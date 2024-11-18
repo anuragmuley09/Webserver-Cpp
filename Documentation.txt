@@ -1,0 +1,8 @@
+Steps:
+1. Creating a Socket 
+2. Binding Socket
+3. Connect Socket
+
+
+Binding socket and connect socket looks very very sam the key difference being
+one connects and other binds.
