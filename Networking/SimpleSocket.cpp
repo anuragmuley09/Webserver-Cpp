@@ -47,3 +47,7 @@ int NET::SimpleSocket::get_sock(){
 int NET::SimpleSocket::get_conenction(){
     return connection;
 }
+
+void NET::SimpleSocket::test(){
+    std::cout<<"Hello, Testing!"<<std::endl;
+}

@@ -26,7 +26,7 @@ namespace NET{
             struct sockaddr_in get_address();
             int get_sock();
             int get_conenction();
-
+            void test();
 
     };
 }
