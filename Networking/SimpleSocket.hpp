@@ -22,11 +22,14 @@ namespace NET{
             // function to check if connection is properly established or not
             void test_conenction(int);
 
-            // getters
+            // getter functions
             struct sockaddr_in get_address();
             int get_sock();
-            int get_conenction();
-            void test();
+            int get_connection();
+
+
+            // setter functions
+            void set_connection(int connection); 
 
     };
 }

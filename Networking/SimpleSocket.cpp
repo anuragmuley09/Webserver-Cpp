@@ -19,8 +19,9 @@ NET::SimpleSocket::SimpleSocket(int domain,
     test_conenction(sock);
 
     // establish network connection
-    connection = connect_to_network(sock, address);
-    test_conenction(connection);
+    // function declared in SimpleSocket.hpp and defined in BindingSocket 
+    // connection = connect_to_network(sock, address);
+    // test_conenction(connection);
 }
 
 /* Function declarations */
@@ -44,10 +45,12 @@ int NET::SimpleSocket::get_sock(){
     return sock;
 }
 
-int NET::SimpleSocket::get_conenction(){
+int NET::SimpleSocket::get_connection(){
     return connection;
 }
 
-void NET::SimpleSocket::test(){
-    std::cout<<"Hello, Testing!"<<std::endl;
+/* Defining Setter functions */
+
+void NET::SimpleSocket::set_connection(int connection){
+    this->connection = connection;
 }
