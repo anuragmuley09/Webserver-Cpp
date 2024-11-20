@@ -10,4 +10,6 @@ int main(){
         return 1;
     }
     NET::TestServer ts;
+
+    WSACleanup();
 }
