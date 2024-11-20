@@ -47,7 +47,7 @@ void NET::TestServer::respond_request(){
     char* hello = "Server says Hello!";
     send(new_socket, hello, strlen(hello), 0);
     closesocket(new_socket);
-}
+}   
 
 
 void NET::TestServer::start_loop(){
