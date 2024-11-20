@@ -11,14 +11,14 @@ int main(){
         return 1;
     }
 
-    std::cout<<"starting socket"<<std::endl;
+    std::cout<<"creating socket"<<std::endl;
     
     // NET::SimpleSocket ss = NET::SimpleSocket(AF_INET, SOCK_STREAM, 0, 80, INADDR_ANY);
 
     std::cout<<"Binding socket"<<std::endl;
     NET::BindingSocket bs = NET::BindingSocket(AF_INET, SOCK_STREAM, 0, 81, INADDR_ANY);
 
-    std::cout<<"Listeining socket"<<std::endl;
+    std::cout<<"Listening socket"<<std::endl;
     NET::ListeningSocket ls = NET::ListeningSocket(AF_INET, SOCK_STREAM, 0, 80, INADDR_ANY, 10);
 
     std::cout<<"great success!"<<std::endl;
