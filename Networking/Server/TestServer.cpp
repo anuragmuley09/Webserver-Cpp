@@ -69,6 +69,10 @@ void NET::TestServer::start_loop() {
     }
 }
 
+/* Changes required:
+    1. Use map to implement url endpoint + respective html source code.
+    2. check how to render html source code. 
+*/
 void NET::TestServer::add_urls() {
     urls.insert("/home");
     urls.insert("/about");
