@@ -5,6 +5,7 @@
 #include <iostream>
 #include "SimpleServer.hpp"
 #include <unordered_set>
+#include <fstream>
 
 namespace NET{
 
@@ -24,6 +25,7 @@ namespace NET{
             void start_loop();
             void add_urls();
             std::string extract_path_from_request(const char buffer[]);
+            std::string render_html(std::string file_path);
     };
 
 }

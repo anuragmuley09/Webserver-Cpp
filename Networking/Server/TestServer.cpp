@@ -3,6 +3,16 @@
 #include <winsock2.h>
 #include <sstream>
 
+/* 
+Changes required:
+    1. Use map to implement url endpoint + respective html source code.
+    2. check how to render html source code. 
+Updates:
+    1. I need to work on maps.
+    2. Iam able to render html code now, but idk if its supposed to be this way, or now. Research.
+*/
+
+
 NET::TestServer::TestServer() : 
                 SimpleServer(AF_INET, SOCK_STREAM, 0, 80, INADDR_ANY, 10)
 {
@@ -44,12 +54,17 @@ void NET::TestServer::handle_request() {
 void NET::TestServer::respond_request() {
     std::string response;
 
+    std::string file_path;
     // Check if the requested path exists in the URLs set
     if (urls.find(requested_path) != urls.end()) {
-        response = "You have reached the " + requested_path + " page!";
+        // response = "You have reached the " + requested_path + " page!";
+        std::cout<<requested_path<<std::endl;
+        file_path = "HTMLFiles"+requested_path + ".html";
     } else {
-        response = "URL Not Found";
+        file_path = "HTMLFiles/fileNotFound.html";  
     }
+
+    response = render_html(file_path);
 
     // Create HTTP response
     std::string http_response = "HTTP/1.1 200 OK\r\nContent-Length: " + 
@@ -58,10 +73,35 @@ void NET::TestServer::respond_request() {
     closesocket(new_socket);
 }
 
+
+/* render html file */
+/* idk if this is correct method or not, but as of now its works! */
+std::string NET::TestServer::render_html(std::string file_path){
+    std::string response;
+    std::ifstream html_file(file_path);
+    if (html_file) {
+        std::stringstream buffer;
+        /* sometime we use >> and sometimes << ...whyyy? */
+        /* its same in context with cin and cout */
+        /*
+        << for inserting in stream and >> for extracting from stream!
+        */
+        buffer << html_file.rdbuf(); // Read the entire file into the buffer, 
+        response = buffer.str();
+        // std::cout<<"here"<<std::endl;
+    } else {
+        // if file is not found
+        // this will not execute, cause i have "fileNotFound.html" ... cause why not :)
+        response = "<html><body><h1>404 requested file Not Found</h1></body></html>";
+    }
+    return response;
+}
+
+
 void NET::TestServer::start_loop() {
+    add_urls(); 
     while (true) {
         std::cout << "<-------------Waiting for connection------------->" << std::endl;
-        add_urls(); // Load available URLs
         accept_request(); // Accept the client request
         handle_request(); // Process the request
         respond_request(); // Send the appropriate response
@@ -69,10 +109,6 @@ void NET::TestServer::start_loop() {
     }
 }
 
-/* Changes required:
-    1. Use map to implement url endpoint + respective html source code.
-    2. check how to render html source code. 
-*/
 void NET::TestServer::add_urls() {
     urls.insert("/home");
     urls.insert("/about");
@@ -80,14 +116,14 @@ void NET::TestServer::add_urls() {
     urls.insert("/contact");
 }
 
-// Helper function to extract the path from the HTTP request
+// extract the path from the HTTP request
 std::string NET::TestServer::extract_path_from_request(const char buffer[]) {
     std::string request(buffer);
     std::istringstream request_stream(request);
     std::string method, path;
 
     request_stream >> method; // Extract the HTTP method (e.g., GET)
-    request_stream >> path;   // Extract the requested path (e.g., /favicon.ico)
+    request_stream >> path;   // Extract the requested path (e.g., /favicon.ico), favicon stands for fav icon...the one which we see on left side of tab bar.
 
     return path; // Return the extracted path
 }
