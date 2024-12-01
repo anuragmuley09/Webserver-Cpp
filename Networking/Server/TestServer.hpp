@@ -5,6 +5,7 @@
 #include <iostream>
 #include "SimpleServer.hpp"
 #include <unordered_set>
+#include <unordered_map>
 #include <fstream>
 
 namespace NET{
@@ -15,6 +16,7 @@ namespace NET{
             int new_socket;
             std::string requested_path;
             std::unordered_set<std::string> urls;
+            std::unordered_map<std::string, std::string> url_mapping;
 
             void accept_request();
             void handle_request();
@@ -24,6 +26,7 @@ namespace NET{
 
             void start_loop();
             void add_urls();
+            void add_url_in_map();
             std::string extract_path_from_request(const char buffer[]);
             std::string render_html(std::string file_path);
     };

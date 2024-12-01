@@ -3,6 +3,19 @@
 #include <winsock2.h>
 #include <sstream>
 
+
+/*
+Potential weakness.
+What am i doing now is, each time client is hitting some endpoint, then iam rendering html info.
+what if i render all of this just once and store the rendered html in some key value pair like?
+
+
+i can use map, like {endpoint: respective rendered html file} like this?
+
+
+*/
+
+
 /* 
 Changes required:
     1. Use map to implement url endpoint + respective html source code.
@@ -60,11 +73,13 @@ void NET::TestServer::respond_request() {
         // response = "You have reached the " + requested_path + " page!";
         std::cout<<requested_path<<std::endl;
         file_path = "HTMLFiles"+requested_path + ".html";
+        response = url_mapping[requested_path];
     } else {
-        file_path = "HTMLFiles/fileNotFound.html";  
+        file_path = "HTMLFiles/fileNotFound.html"; 
+        response = render_html(file_path); 
     }
 
-    response = render_html(file_path);
+    // response = render_html(file_path);
 
     // Create HTTP response
     std::string http_response = "HTTP/1.1 200 OK\r\nContent-Length: " + 
@@ -116,6 +131,7 @@ void NET::TestServer::add_urls() {
     urls.insert("/contact");
 }
 
+
 // extract the path from the HTTP request
 std::string NET::TestServer::extract_path_from_request(const char buffer[]) {
     std::string request(buffer);
@@ -126,4 +142,12 @@ std::string NET::TestServer::extract_path_from_request(const char buffer[]) {
     request_stream >> path;   // Extract the requested path (e.g., /favicon.ico), favicon stands for fav icon...the one which we see on left side of tab bar.
 
     return path; // Return the extracted path
+}
+
+/* testing this new concept */
+void NET::TestServer::add_url_in_map() {
+    for (const auto& url : urls) {
+        std::string file_path = "HTMLFiles" + url + ".html";
+        url_mapping[url] = render_html(file_path); // Cache rendered HTML
+    }
 }
