@@ -3,6 +3,9 @@
 #include <winsock2.h>
 #include <sstream>
 
+/**************** This is DONE! The map and cache thing ****************/
+//--------------------------------------------------------------------//
+
 
 /*
 Potential weakness.
@@ -11,7 +14,6 @@ what if i render all of this just once and store the rendered html in some key v
 
 
 i can use map, like {endpoint: respective rendered html file} like this?
-
 
 */
 
@@ -105,8 +107,8 @@ std::string NET::TestServer::render_html(std::string file_path){
         response = buffer.str();
         // std::cout<<"here"<<std::endl;
     } else {
-        // if file is not found
-        // this will not execute, cause i have "fileNotFound.html" ... cause why not :)
+        // if file is not found 
+        // this may not execute, cause i have "fileNotFound.html" ... cause why not :)
         response = "<html><body><h1>404 requested file Not Found</h1></body></html>";
     }
     return response;
@@ -115,12 +117,13 @@ std::string NET::TestServer::render_html(std::string file_path){
 
 void NET::TestServer::start_loop() {
     add_urls(); 
+    add_url_in_map();
     while (true) {
         std::cout << "<-------------Waiting for connection------------->" << std::endl;
         accept_request(); // Accept the client request
         handle_request(); // Process the request
         respond_request(); // Send the appropriate response
-        std::cout << "<-------------Execution Done------------->" << std::endl;
+        std::cout << "<-------------Execution Done--------------------->" << std::endl;
     }
 }
 
@@ -129,6 +132,7 @@ void NET::TestServer::add_urls() {
     urls.insert("/about");
     urls.insert("/hello");
     urls.insert("/contact");
+    urls.insert("/bts");
 }
 
 
